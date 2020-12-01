@@ -12,12 +12,12 @@ import re
 import plotly.graph_objects as go
 from PIL import Image
 from cairosvg import svg2png
-import back_end
+import helpers
 
 # Build App
 external_stylesheets = [dbc.themes.DARKLY]
 app = dash.Dash(__name__, title='Digit doodle interpreter', external_stylesheets=[external_stylesheets])
-fig = back_end.new_figure()
+fig = helpers.new_figure()
 config = {
     "modeBarButtonsToRemove": [
         "toImage",
@@ -38,10 +38,10 @@ app.layout = html.Div(
         dcc.Graph(id="graph-pic", figure=fig, config=config),
         dbc.Button("Clear canvas", id="clear-graph"),
         dbc.Button("Save image", id="save-image"),
-        dcc.Markdown("Characteristics of shapes"),
+        dcc.Markdown("Prediction"),
         html.Div(id="data-div"),
         html.Details([
-            html.Summary('Contents of figure storage'),
+            html.Summary('Contents of image storage'),
             dcc.Markdown(
                 id='clientside-figure-json'
             )
@@ -68,22 +68,23 @@ def save_image(n_clicks, relayout_data):
         images=[]
         output_data=[]
         for shape in shapes:
-            img=back_end.path2img(shape, size=(28,28), stroke_width=4, viewbox_shift=(10,10),viewbox_margin=(20,20))
+            img=helpers.path2img(shape, size=(28,28), stroke_width=4, viewbox_shift=(10,10),viewbox_margin=(20,20))
             images.append(html.Img(src=img))
-            input_data = np.array([back_end.img2array(img)], dtype=np.float32)
+            input_data = np.array([helpers.img2array(img)], dtype=np.float32)
             interpreter.set_tensor(input_details[0]['index'], input_data)
             interpreter.invoke()
-            output_data.append(interpreter.get_tensor(output_details[0]['index']))
-        return images, output_data
+            prediction = np.argmax(interpreter.get_tensor(output_details[0]['index']))
+            output_data.append(prediction)
+        return output_data, images
     except TypeError:
         return None, "No shape found"
 
 @app.callback(
-    dash.dependencies.Output("graph-pic", "figure"),
-    dash.dependencies.Input("clear-graph", "n_clicks"),
+    Output("graph-pic", "figure"),
+    Input("clear-graph", "n_clicks"),
 )
 def clear_figure(n_clicks):
-    return back_end.new_figure()
+    return helpers.new_figure()
 
 
 @app.callback(
