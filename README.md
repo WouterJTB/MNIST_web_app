@@ -4,7 +4,7 @@ Project is currenlty in progress.
 Interactive web application that allows users to write a digit which is then classified by the model. 
 The front end was made in plotly Dash, for the classification, a convolutional neural network was trained on the MNIST dataset using TensorFlow.
 
-To run the app locally, download [app.py](app.py) and [back_end.py](back_end.py) and install the dependencies listed in 'Web App Dependencies'. Then run app with: 
+To run the app locally, download [app.py](app.py) and [helpers.py](helpers.py) and install the dependencies listed in 'Web App Dependencies'. Then run app with: 
 
     $ python app.py
 
