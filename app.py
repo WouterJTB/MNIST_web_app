@@ -67,15 +67,17 @@ def save_image(n_clicks, relayout_data):
         shapes=relayout_data["shapes"]
         images=[]
         output_data=[]
+        paths=[]
         for shape in shapes:
-            img=helpers.path2img(shape, size=(28,28), stroke_width=4, viewbox_shift=(10,10),viewbox_margin=(20,20))
-            images.append(html.Img(src=img))
-            input_data = np.array([helpers.img2array(img)], dtype=np.float32)
-            interpreter.set_tensor(input_details[0]['index'], input_data)
-            interpreter.invoke()
-            prediction = np.argmax(interpreter.get_tensor(output_details[0]['index']))
-            output_data.append(prediction)
-        return output_data, images
+            paths.append(shape["path"])
+        img=helpers.path2img(paths, size=(28,28), stroke_width=4, viewbox_shift=(10,10),viewbox_margin=(20,20))
+        images.append(html.Img(src=img))
+        input_data = np.array([helpers.img2array(img)], dtype=np.float32)
+        interpreter.set_tensor(input_details[0]['index'], input_data)
+        interpreter.invoke()
+        prediction = np.argmax(interpreter.get_tensor(output_details[0]['index']))
+        output_data.append(prediction)
+        return prediction, html.Img(src=img)
     except TypeError:
         return None, "No shape found"
 
