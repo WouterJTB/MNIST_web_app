@@ -11,7 +11,7 @@ To run the app locally, download [app.py](app.py) and [back_end.py](back_end.py)
 
 ## Main files
 * [app.py](app.py) - The main application
-* [back_end.py](back_end.py) - File with helper functions
+* [helpers.py](helpers.py) - File with helper functions
 * [model_training_notebook.ipynb](model_training_notebook.ipynb) - Colab notebook in which the model was trained
 * [model.tflite](model.tflite) - Trained model
 
@@ -19,18 +19,18 @@ To run the app locally, download [app.py](app.py) and [back_end.py](back_end.py)
 [The MNIST Database of handwritten digits](http://yann.lecun.com/exdb/mnist/)
 
 ## Web App Dependencies
-* Python 3.8
-* CairoSVG 2.5.0
-* dash 1.17.0
-* dash-bootstrap-components 0.10.7
-* numpy 1.19.3
-* Pillow 8.0.1
-* plotly 4.13.0
-* tflite-runtime [2.5.0-cp38-cp38-win_amd64](https://github.com/google-coral/pycoral/releases/download/release-frogfish/tflite_runtime-2.5.0-cp38-cp38-win_amd64.whl)*
+* Python 3.5-3.8
+* CairoSVG
+* dash
+* dash-bootstrap-components
+* numpy
+* Pillow
+* plotly
+* tflite-runtime*
 
 Full list of libraries is included in [requirements.txt](requirements.txt)
 
-*The app was made in Windows 10 64-bit. Linux or OSx environments should install a [different version of the tflite interpreter](https://www.tensorflow.org/lite/guide/python)
+*tflite-runtime is specific to python release and OS, installation instructions can be found [here](https://www.tensorflow.org/lite/guide/python)
 
 ## To Do's
 * Make front end pretty
