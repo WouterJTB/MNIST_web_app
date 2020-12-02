@@ -12,7 +12,7 @@ To run the app locally, download the files in the app folder and install the dep
 ## Main files
 * [app.py](app/app.py) - The main application
 * [helpers.py](app/helpers.py) - File with helper functions
-* [model_training_notebook.ipynb](model_training/notebook/model_training_notebook.ipynb) - Colab notebook in which the model was trained
+* [model_training_notebook.ipynb](model_training_notebook/model_training_notebook.ipynb) - Colab notebook in which the model was trained
 * [model.tflite](app/model.tflite) - Trained model
 
 ## Datasets
