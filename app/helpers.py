@@ -5,13 +5,13 @@ import plotly.graph_objects as go
 from PIL import Image
 from cairosvg import svg2png
 
-def new_figure(size=(400,400), tickrange=(100,100), viewbox_shift=(-1,-1), viewbox_margin=(2,2)):
-    fig = go.Figure(layout={"dragmode":"drawopenpath", "height":size[0], "width":size[1]})
+def new_figure(tickrange: tuple=(100,100)):
+    fig = go.Figure(layout={"dragmode":"drawopenpath", "margin":{"l":0,"r":0,"t":0,"b":0}})
     fig.update_xaxes(range=[0,tickrange[0]], showticklabels=False, showgrid=False)
     fig.update_yaxes(range=[0,tickrange[1]], showticklabels=False, showgrid=False)
     return fig
 
-def path2img(path_list, size=(100,100), stroke_width=0.5, viewbox_shift=(-1,-1), viewbox_margin=(2,2)):
+def path2img(path_list: list, size: tuple=(100,100), stroke_width: float=0.5, viewbox_shift: tuple=(-1,-1), viewbox_margin: tuple=(2,2)):
     """
     Function used to convert svg paths into a PIL.Image object.
 
@@ -48,7 +48,7 @@ def path2img(path_list, size=(100,100), stroke_width=0.5, viewbox_shift=(-1,-1),
     img=img.convert('L').point(lambda px: 255-px)
     return img
 
-def img2array(img, resize=(28,28)):
+def img2array(img: Image, resize: tuple=(28,28)):
     """
     Function used to convert a single channel PIL.Image object to a numpy array.
     Array has normalized pixel values for model inference/training.
@@ -64,3 +64,15 @@ def img2array(img, resize=(28,28)):
     arr=arr/255
     arr=arr[:,:,np.newaxis]
     return arr
+
+def markdown_table(output_data = [], prediction = None):
+    string = '###### {message: <16}Estimate\n'.format(message='Number')
+    val = 0
+    for i in range(10):
+        if len(output_data)>0:
+            val = float(output_data.transpose()[i])
+        if i == prediction:
+            string += f'*{i: <28}{val:.4f}*\n'
+        else:
+            string += f'{i: <28}{val:.4f}\n'
+    return string
