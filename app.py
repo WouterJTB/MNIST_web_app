@@ -17,6 +17,7 @@ import helpers
 # Build App
 external_stylesheets = [dbc.themes.LUX]
 app = dash.Dash(__name__, title='Digit doodle interpreter', external_stylesheets=external_stylesheets)
+server = app.server
 figure_config = {
     "responsive": True,
     "displaylogo": False,
